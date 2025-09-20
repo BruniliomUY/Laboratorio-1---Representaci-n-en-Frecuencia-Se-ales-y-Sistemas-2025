@@ -1,5 +1,7 @@
 # Laboratorio 1 - Señales y Sistemas
 
+El objetivo de este laboratorio es profundizar en el concepto de representación en frecuencia de señales periódicas, y en particular en la serie de Fourier.
+
 Este repositorio contiene el trabajo realizado para el Laboratorio 1 de la materia Señales y Sistemas, enfocado en el análisis de audio mediante Series de Fourier.
 
 ## Estructura del Proyecto
@@ -90,4 +92,3 @@ python Problema2_acorde_do_mayor.py
 ## Autor
 
 Bruno - Estudiante de Ingeniería
-

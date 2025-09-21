@@ -133,8 +133,8 @@ def visualizar_nota(filename, plot_handles=None):
     plt.show()
 
 # Analizar el archivo de audio
-mp3_file = './acorde-de-guitarra-si-menor_.mp3'
+mp3_file = './acorde-guitarra-do-mayor.mp3'
 
 # Visualizar
-visualizar_nota('./acorde-de-guitarra-si-menor_.mp3')
+visualizar_nota('/acorde-guitarra-do-mayor.mp3')
 visualizar_acorde(mp3_file)

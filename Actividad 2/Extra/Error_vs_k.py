@@ -11,8 +11,7 @@ def funcion_sierra(t, periodo=1.0):
 
 # Función para calcular el error de Fourier
 def calcular_error_fourier(funcion, T, k_max, nombre_funcion):
-    Calcula el error de la serie de Fourier para diferentes valores de k
-    """
+    #Calcula el error de la serie de Fourier para diferentes valores de k
     # Rango de valores de k a probar
     k_values = np.arange(1, k_max + 1, 2)  # Solo valores impares para mejor convergencia
     errors = []

@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
 
 # Definimos la función periódica de ejemplo (puedes cambiar esta función)
 #def ejemplo_funcion_periodica(t):
@@ -11,10 +12,10 @@ def funcion_cuadrada(t, periodo=1.0):
 
 # Parámetros
 T = 3.0  # Periodo de la función
-k = 100    # Número de términos a sumar
+k = 5000   # Número de términos a sumar
 
 # Crear un arreglo de tiempo
-t = np.linspace(0, T, 1000)
+t = np.linspace(0, T, 10*k)
 
 # Calcular los n primeros coeficientes de la serie de Fourier
 a = np.zeros(k + 1, dtype=complex)  # Asegurarse de que el arreglo pueda almacenar valores complejos
@@ -24,7 +25,7 @@ for n in range(0, k + 1):
     #Calculamos los coeficients solo para n>=0, porque para cualquier señal real, los coeficientes negativos son el conjugado de los positivos
 
 # Calcular la serie a partir de los coeficientes, en un intervalo más amplio para ver la periodicidad
-t = np.linspace(-T, 2*T, 1000)
+t = np.linspace(-T, 2*T, 30*k)
 fourier_sum = a[0] * np.ones_like(t, dtype=complex) #Inicializar suma de Fourier con el término n=0
 for n in range(1, k + 1):
     fourier_sum += 2*a[n] * np.exp(1j * 2 * np.pi * n * t / T)
@@ -34,15 +35,24 @@ for n in range(1, k + 1):
 # Modificar esta línea para obtener la parte real de fourier_sum
 fourier_sum_real = fourier_sum.real
 
+t_error = np.linspace(0, T, 10*k)
+
+fourier_sum_error = a[0] * np.ones_like(t_error, dtype=complex)
+for n in range(1, k + 1):
+    fourier_sum_error += 2 * a[n] * np.exp(1j * 2 * np.pi * n * t_error / T)
+fourier_sum_error_real = fourier_sum_error.real
+
 #Calcular la convergencia de la serie en bace a la potencia promedio del error
-def funcion_error(t, funcion_cuadrada, fourier_sum_real, T=3):
-    diferencia = funcion_cuadrada(t, periodo=T) - fourier_sum_real
-    #Se calcula la diferencia entre la representacion mediante la serie de fourier de la señal y la señal 
-    error = (1.0 / T) * np.trapezoid(diferencia**2, t)
-    #Calculo de error segun  Sección 3.4“Señales y Sistemas de Oppenheim, Willsky y Young”.
+def funcion_error(t_error, funcion_cuadrada, fourier_sum_error_real, T=3):
+    # Recalcular la señal cuadrada y la suma de Fourier con el t refinado
+    diferencia = funcion_cuadrada(t_error, periodo=T) - fourier_sum_error_real
+
+    # Integral según Oppenheim (Sección 3.4)
+    error = (1.0 / T) * np.trapezoid(diferencia**2, t_error)
+
     return error
 
-print(funcion_error(t, funcion_cuadrada, fourier_sum_real, T=3.0))
+print(funcion_error(t_error, funcion_cuadrada, fourier_sum_error_real, T=3.0))
 
 plt.figure(figsize=(10, 5))
 
